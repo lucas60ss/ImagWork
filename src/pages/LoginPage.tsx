@@ -13,8 +13,12 @@ const LoginPage: React.FC = () => {
 
   // 這邊設定登入按鈕導向
   const handleLogin = () => {
+    console.log("Input Account:", account);
+    console.log("Input Password:", password);
+    console.log("Stored Account:", loginAccount);
+    console.log("Stored Password:", loginPassword);
+
     if (account === loginAccount && password === loginPassword) {
-      // 儲存登入狀態到 localStorage
       localStorage.setItem("isAuthenticated", "true");
       navigate("/");
     } else {
@@ -74,9 +78,13 @@ const LoginPage: React.FC = () => {
               transition-transform transform hover:scale-105"
             />
           </div>
+          <div className="flex items-center justify-center mt-3 text-red-600">
+            {error}
+          </div>
+
           <button
             type="submit"
-            className="w-full mt-8 bg-blue-500 py-2 rounded-lg 
+            className="w-full mt-4 bg-blue-500 py-2 rounded-lg 
           bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white
           transition-transform transform hover:scale-105"
           >
