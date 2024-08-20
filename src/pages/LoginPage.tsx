@@ -1,13 +1,25 @@
 // src/pages/AboutPage.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AboutPage: React.FC = () => {
+// 獲取環境變數中的帳號和密碼
+const loginAccount = process.env.REACT_APP_LOGIN_ACCOUNT || "";
+const loginPassword = process.env.REACT_APP_LOGIN_PASSWORD || "";
+const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const [account, setAccount] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // 用於顯示錯誤信息
 
   // 這邊設定登入按鈕導向
   const handleLogin = () => {
-    navigate("/");
+    if (account === loginAccount && password === loginPassword) {
+      // 儲存登入狀態到 localStorage
+      localStorage.setItem("isAuthenticated", "true");
+      navigate("/");
+    } else {
+      setError("帳號或密碼錯誤");
+    }
   };
   return (
     <div className="flex justify-center items-center	w-screen	h-screen bg-gray-50">
@@ -38,6 +50,10 @@ const AboutPage: React.FC = () => {
             <input
               type="text"
               placeholder="請輸入帳號"
+              value={account}
+              onChange={(e) => {
+                setAccount(e.target.value);
+              }}
               className="px-3 py-2 border-solid border-2 rounded-lg placeholder:text-sm py-2
               transition-transform transform hover:scale-105"
             />
@@ -50,6 +66,10 @@ const AboutPage: React.FC = () => {
             <input
               type="password"
               placeholder="請輸入密碼"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               className="px-3 py-2 border-solid border-2 rounded-lg
               transition-transform transform hover:scale-105"
             />
@@ -68,4 +88,4 @@ const AboutPage: React.FC = () => {
   );
 };
 
-export default AboutPage;
+export default LoginPage;

@@ -4,18 +4,21 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import Sidebar from "./components/Sidebar";
 import { Outlet, useLocation } from "react-router-dom";
-import Breadcrumbs from "./components/Breadcrumbs";
+// import Breadcrumbs from "react-breadcrumbs-dynamic";
+import Header from "./components/Header";
+import LoginGuard from "./components/LoginGuard";
 
 const Layout: React.FC = () => {
   const location = useLocation();
   const isBreadcrumbsVisible = location.pathname !== "/login";
 
   return (
-    <div className="flex">
+    <div className="flex flex-row">
       <Sidebar />
-      {/* <div className="flex-grow"> */}
-      <Outlet /> {/* This will render the matched child route */}
-      {/* </div> */}
+      <main className="flex flex-col items-center  w-full mx-5">
+        <Header />
+        <Outlet />
+      </main>
     </div>
   );
 };
@@ -25,10 +28,16 @@ const AppRoutes: React.FC = () => {
     <Routes>
       {/* 登入的Login，沒有sideBar */}
       <Route path="/login" element={<LoginPage />} />
-      {/* 所有路由套用sidebar */}
-      <Route element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" />
+
+      <Route element={<LoginGuard />}>
+        <Route element={<Layout />}>
+          {/* 所有路由套用sidebar */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" />
+          <Route path="/option1" />
+          <Route path="/option2" />
+          <Route path="/option3" />
+        </Route>
       </Route>
     </Routes>
   );

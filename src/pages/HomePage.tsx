@@ -17,9 +17,11 @@ const HomePage: React.FC = () => {
         <Sidebar />
       </div> */}
       <div className=" w-full justify-start items-start flex mt-10 flex flex-col mr-10">
-        <Header />
+        {/* <Header />  */}
+        {/* header 放在全域的地方 */}
+
         {/* 各個專案的下拉式選單 */}
-        <section className="allProject  w-full flex items-center justify-center mt-5 flex-col ml-1">
+        {/* <section className="allProject  w-full flex items-center justify-center flex-col ">
           <h1>所有專案</h1>
           <select
             className="mt-5 w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105 "
@@ -37,7 +39,7 @@ const HomePage: React.FC = () => {
               );
             })}
           </select>
-        </section>
+        </section> */}
       </div>
     </div>
   );
