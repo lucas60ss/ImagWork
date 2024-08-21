@@ -30,12 +30,20 @@ const Sidebar: React.FC = () => {
       </div>
       <nav className="">
         <ul>
+          <li>
+            <Link
+              to="/"
+              className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300"
+            >
+              首頁
+            </Link>
+          </li>
           <li className="relative">
             <div
               onClick={toggleDropdown} // 點擊時觸發toggleDropdown方法
               className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300 w-[225px] flex justify-between cursor-pointer"
             >
-              首頁設定
+              帳號權限管理
               <span className="ml-2 mt-1">
                 {isOpen ? <FaChevronUp /> : <FaChevronDown />}
               </span>
@@ -71,7 +79,7 @@ const Sidebar: React.FC = () => {
               className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300 
               flex flex-row justify-between"
             >
-              權限、帳號管理
+              個人帳號管理
               <span className="ml-2 mt-1">
                 {isOpen2 ? <FaChevronUp /> : <FaChevronDown />}
               </span>
@@ -100,14 +108,6 @@ const Sidebar: React.FC = () => {
                 </div>
               </div>
             )}
-          </li>
-          <li>
-            <Link
-              to="/about"
-              className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300"
-            >
-              設定
-            </Link>
           </li>
         </ul>
       </nav>

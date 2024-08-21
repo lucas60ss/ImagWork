@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import Breadcrumns from "./Breadcrumbs";
 // import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { SignOut, Gear, UserCircle } from "phosphor-react";
 
 const Header: React.FC = () => {
   // 測試全部專案夏拉是選單
-  const allProject = ["麥卡倫", "LV", "The North Face"];
-  const [Projects, setProjects] = useState("艾邁格所有專案");
+  // const allProject = ["麥卡倫", "LV", "The North Face"];
+  // const [Projects, setProjects] = useState("艾邁格所有專案");
   // const [searchTerm, setSearchTerm] = useState(""); //追蹤搜尋框的輸入
   const navigate = useNavigate(); //使用導航
 
@@ -27,23 +28,27 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     console.log("登出");
+    // 刪除登入狀態
+    localStorage.removeItem("isAuthenticated");
+    // 導向登入頁面
+    navigate("/login");
   };
   return (
-    <header className="flex items-center justify-between px-4 ml-5 mr-5 w-full pb-4 border-b-solid  mt-5">
+    <header className="flex items-center justify-between px-4 mx-3 w-full pb-4 border-b-solid border-b-[1px]  mt-5">
       {/* 引入麵包屑部分 */}
       <div className="">
         <Breadcrumns />
       </div>
       {/* 搜索框 */}
-      <input
+      {/* <input
         type="text"
         placeholder="搜索..."
         className="h-[42px] w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105"
-        // style={{ pointerEvents: "auto" }}
-      />
+        style={{ pointerEvents: "auto" }}
+      /> */}
       {/* 各個專案的下拉式選單 */}
-      <section className="allProject  flex items-center justify-center flex-col ">
-        {/* <h1>所有專案</h1> */}
+      {/* <section className="allProject  flex items-center justify-center flex-col ">
+        <h1>所有專案</h1>
         <select
           className=" w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105 "
           value={Projects}
@@ -60,13 +65,32 @@ const Header: React.FC = () => {
             );
           })}
         </select>
-      </section>
-      <button
-        onClick={handleLogout}
-        className="px-4 py-2 mr-5 rounded-lg bg-gray-400 hover:bg-gray-800 hover:text-gray-400 focus:outline-none custom-hover"
-      >
-        登出
-      </button>
+      </section> */}
+
+      {/* 右上角登出、設定區塊 */}
+      <div className="logout flex flex-row w-[160px] h-[60px] justify-between rounded-lg bg-white p-2 shadow">
+        <div className="left flex items-center">
+          <UserCircle size={24} color="#504949" weight="regular" />
+        </div>
+        <div className="middle ">
+          <div className="text-sm">admin</div>
+          <div className="text-sm">超級管理員</div>
+        </div>
+        <div className="right flex items-center flex-col ps-2 justify-center border-l-[1px]">
+          <Link
+            to="/settings"
+            className=" hover:bg-gray-800 hover:text-gray-400 focus:outline-none pb-1"
+          >
+            <Gear size={20} color="#504949" weight="regular" />
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="  flex items-center pt-1 border-t-[1px]"
+          >
+            <SignOut size={20} color="#504949" weight="regular" />
+          </button>
+        </div>
+      </div>
     </header>
   );
 };

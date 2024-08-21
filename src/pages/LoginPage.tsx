@@ -11,6 +11,7 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(""); // 用於顯示錯誤信息
 
+  // console.log("讚", account);
   // 這邊設定登入按鈕導向
   const handleLogin = () => {
     console.log("Input Account:", account);
@@ -55,7 +56,7 @@ const LoginPage: React.FC = () => {
               type="text"
               placeholder="請輸入帳號"
               value={account}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAccount(e.target.value);
               }}
               className="px-3 py-2 border-solid border-2 rounded-lg placeholder:text-sm py-2
@@ -71,7 +72,7 @@ const LoginPage: React.FC = () => {
               type="password"
               placeholder="請輸入密碼"
               value={password}
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPassword(e.target.value);
               }}
               className="px-3 py-2 border-solid border-2 rounded-lg

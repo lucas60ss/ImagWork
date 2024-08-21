@@ -7,7 +7,7 @@ const Breadcrumbs: React.FC = () => {
 
   // 路徑到中文的映射
   const breadcrumbNameMap: { [key: string]: string } = {
-    "/": "首頁",
+    "/": "選擇專案",
     about: "關於我們",
     option1: "選項1",
     option2: "選項2",
@@ -16,7 +16,7 @@ const Breadcrumbs: React.FC = () => {
 
   return (
     <nav className="flex items-center space-x-2 text-sm">
-      <Link to="/">首頁</Link>
+      <Link to="/">選擇專案</Link>
       {pathnames.map((value, index) => {
         const pathname = `/${pathnames.slice(0, index + 1).join("/")}`;
         const breadcrumbLabel = breadcrumbNameMap[value] || value; // 使用映射，找不到則使用原值

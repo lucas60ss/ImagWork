@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
 
 const LoginGuard: React.FC = () => {
+  // 去抓她的狀態是否登入
   const isAuthenticated = () =>
     localStorage.getItem("isAuthenticated") === "true";
 
