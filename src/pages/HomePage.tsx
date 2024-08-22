@@ -6,8 +6,10 @@ import { projectMappings } from "../components/projectMappings"; // 导入映射
 const HomePage: React.FC = () => {
   const allProject = Object.keys(projectMappings);
   const [Projects, setProjects] = useState("艾邁格所有專案");
+  // 搜索詞的狀態
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProjects, setFilteredProjects] = useState<string[]>([]);
+  //搜索結果的狀態
+  const [searchResults, setSearchResults] = useState<string[]>([]);
   const navigate = useNavigate();
 
   // 控制下拉專案改變
@@ -21,17 +23,13 @@ const HomePage: React.FC = () => {
 
   // 控制搜尋按鈕
   const handleSearch = () => {
-    if (searchTerm) {
-      // 篩選與搜索詞相關的專案
-      const results = allProject.filter((project) =>
-        project.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredProjects(results);
-    } else {
-      setFilteredProjects([]);
-    }
+    const results = Object.keys(projectMappings).filter((key) =>
+      key.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
   };
 
+  // 麵包屑的路徑
   const handleProjectClick = (project: string) => {
     const projectId = projectMappings[project];
     if (projectId) {
@@ -42,7 +40,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="flex w-full overflow-hidden">
       <div className="w-full justify-start items-start flex flex-row mr-10">
-        <section className="allProject w-full flex items-center justify-center flex-col h-60">
+        <section className="allProject w-full flex items-center justify-center flex-col h-80">
           <select
             className="mt-5 w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105"
             value={Projects}
@@ -56,6 +54,19 @@ const HomePage: React.FC = () => {
             ))}
           </select>
 
+          {/* <input
+            type="text"
+            className="mt-5 h-[42px] w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="請輸入搜尋詞"
+          />
+          <button
+            className="px-4 py-2 mt-5 rounded-lg bg-gray-400 hover:bg-gray-800 hover:text-gray-400 focus:outline-none custom-hover"
+            onClick={handleSearch}
+          >
+            搜尋
+          </button> */}
           <input
             type="text"
             className="mt-5 h-[42px] w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105"
@@ -69,8 +80,23 @@ const HomePage: React.FC = () => {
           >
             搜尋
           </button>
+          <div className="mt-5">
+            <h2 className="text-lg font-bold">搜尋結果:</h2>
+            <ul>
+              {searchResults.length > 0 ? (
+                searchResults.map((result, index) => (
+                  <li key={index} className="border-b border-gray-300 py-2">
+                    {result} : {projectMappings[result]}
+                  </li>
+                ))
+              ) : (
+                <li>沒有找到匹配的結果</li>
+              )}
+            </ul>
+          </div>
+
           {/* 搜索结果 */}
-          {filteredProjects.length > 0 && (
+          {/* {filteredProjects.length > 0 && (
             <ul className="mt-5 w-80 border border-gray-300 rounded-lg bg-white">
               {filteredProjects.map((project, index) => (
                 <li
@@ -82,7 +108,7 @@ const HomePage: React.FC = () => {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
         </section>
       </div>
     </div>
