@@ -7,6 +7,7 @@ import { Outlet, useLocation } from "react-router-dom";
 // import Breadcrumbs from "react-breadcrumbs-dynamic";
 import Header from "./components/Header";
 import LoginGuard from "./components/LoginGuard";
+import ProjectPage from "./pages/ProjectPage";
 
 const Layout: React.FC = () => {
   const location = useLocation();
@@ -37,6 +38,11 @@ const AppRoutes: React.FC = () => {
           <Route path="/option1" />
           <Route path="/option2" />
           <Route path="/option3" />
+          {/* 添加 點進去各個專案 的動態路由 */}
+          <Route path="/projects" element={<ProjectPage />}>
+            {/* 動態路由 */}
+            <Route path="/projects:projectId" element={<ProjectPage />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

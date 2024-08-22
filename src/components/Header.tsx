@@ -79,15 +79,20 @@ const Header: React.FC = () => {
         <div className="right flex items-center flex-col ps-2 justify-center border-l-[1px]">
           <Link
             to="/settings"
-            className=" hover:bg-gray-800 hover:text-gray-400 focus:outline-none pb-1"
+            className="  hover:text-gray-400 focus:outline-none pb-1 custom-hover"
           >
             <Gear size={20} color="#504949" weight="regular" />
           </Link>
           <button
             onClick={handleLogout}
-            className="  flex items-center pt-1 border-t-[1px]"
+            className="  flex items-center pt-1 border-t-[1px] "
           >
-            <SignOut size={20} color="#504949" weight="regular" />
+            <SignOut
+              size={20}
+              color="#504949"
+              weight="regular"
+              className="custom-hover"
+            />
           </button>
         </div>
       </div>
