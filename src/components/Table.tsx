@@ -10,7 +10,7 @@ interface SimpleFormProps {
 const Table: React.FC = () => {
   // 狀態用來控制當前顯示的是表格還是圖表，初始是table
   const [view, setView] = useState("table");
-  const [downloadBut, setDownloadBut] = useState("");
+  const [downloadType, setDownloadType] = useState("excel");
 
   return (
     <div className="w-full  items-center flex flex-col mt-5">
@@ -22,7 +22,10 @@ const Table: React.FC = () => {
             className={`w-16 h-10 flex justify-center items-center border-b-2 hover:text-[#948469] hover:border-b-[#948469] hover-scale-text ${
               view === "chart" ? "text-[#948469] border-b-[#948469]" : ""
             }`}
-            onClick={() => setView("chart")}
+            onClick={() => {
+              setView("chart");
+              setDownloadType("pdf");
+            }}
           >
             圖表
           </div>
@@ -30,15 +33,18 @@ const Table: React.FC = () => {
             className={`w-16 h-10 flex justify-center items-center border-b-2 hover:text-[#948469] hover:border-b-[#948469] hover-scale-text ${
               view === "table" ? "text-[#948469] border-b-[#948469]" : ""
             }`}
-            onClick={() => setView("table")}
+            onClick={() => {
+              setView("table");
+              setDownloadType("excel");
+            }}
           >
             表格
           </div>
         </div>
         {/* 下載按鈕 */}
-        <button className=" px-4 py-2 border-[#948469] text-[#948469] border-2  flex rounded-lg hover:scale-105 transition-all duration-300">
+        <button className="px-4 py-2 border-[#948469] text-[#948469] border-2 flex rounded-lg hover:scale-105 transition-all duration-300">
           <DownloadSimple size={24} />
-          下載Excel
+          {downloadType === "excel" ? "下載Excel" : "下載PDF"}
         </button>
       </div>
 
