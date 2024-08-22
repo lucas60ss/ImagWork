@@ -9,7 +9,9 @@ const HomePage: React.FC = () => {
   // 搜索詞的狀態
   const [searchTerm, setSearchTerm] = useState("");
   //搜索結果的狀態
-  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<
+    { name: string; link: string }[]
+  >([]);
   const navigate = useNavigate();
 
   // 控制下拉專案改變
@@ -23,19 +25,22 @@ const HomePage: React.FC = () => {
 
   // 控制搜尋按鈕
   const handleSearch = () => {
-    const results = Object.keys(projectMappings).filter((key) =>
-      key.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const results = Object.keys(projectMappings)
+      .filter((key) => key.toLowerCase().includes(searchTerm.toLowerCase()))
+      .map((key) => ({
+        name: key,
+        link: `/projects/${projectMappings[key]}`,
+      }));
     setSearchResults(results);
   };
 
   // 麵包屑的路徑
-  const handleProjectClick = (project: string) => {
-    const projectId = projectMappings[project];
-    if (projectId) {
-      navigate(`/projects/${projectId}`);
-    }
-  };
+  // const handleProjectClick = (project: string) => {
+  //   const projectId = projectMappings[project];
+  //   if (projectId) {
+  //     navigate(`/projects/${projectId}`);
+  //   }
+  // };
 
   return (
     <div className="flex w-full overflow-hidden">
@@ -86,7 +91,16 @@ const HomePage: React.FC = () => {
               {searchResults.length > 0 ? (
                 searchResults.map((result, index) => (
                   <li key={index} className="border-b border-gray-300 py-2">
-                    {result} : {projectMappings[result]}
+                    <a
+                      href={result.link}
+                      className="text-blue-500 hover:underline"
+                      onClick={(e) => {
+                        e.preventDefault(); // 防止預設行為
+                        navigate(result.link); // 使用 React Router 進行導航
+                      }}
+                    >
+                      {result.name}
+                    </a>
                   </li>
                 ))
               ) : (
@@ -94,21 +108,6 @@ const HomePage: React.FC = () => {
               )}
             </ul>
           </div>
-
-          {/* 搜索结果 */}
-          {/* {filteredProjects.length > 0 && (
-            <ul className="mt-5 w-80 border border-gray-300 rounded-lg bg-white">
-              {filteredProjects.map((project, index) => (
-                <li
-                  key={index}
-                  className="p-2 hover:bg-gray-200 cursor-pointer"
-                  onClick={() => handleProjectClick(project)}
-                >
-                  {project}
-                </li>
-              ))}
-            </ul>
-          )} */}
         </section>
       </div>
     </div>

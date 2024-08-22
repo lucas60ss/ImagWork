@@ -10,6 +10,7 @@ interface SimpleFormProps {
 const Table: React.FC = () => {
   // 狀態用來控制當前顯示的是表格還是圖表，初始是table
   const [view, setView] = useState("table");
+  const [downloadBut, setDownloadBut] = useState("");
 
   return (
     <div className="w-full  items-center flex flex-col mt-5">
@@ -41,7 +42,7 @@ const Table: React.FC = () => {
         </button>
       </div>
 
-      {/* 根据状态显示不同内容 */}
+      {/* 依狀態顯示不同內容 */}
       {view === "table" ? (
         <table className="w-full border border-gray-200 rounded-xl mt-10">
           <thead className="bg-gray-100 text-[#A3A3A3]">
@@ -75,7 +76,7 @@ const Table: React.FC = () => {
         </table>
       ) : (
         <div className="chart-container mt-10">
-          {/* 替换为您的图表组件或内容 */}
+          {/* 替換為表格或圖表 */}
           <div className="w-full h-[400px] bg-gray-200 flex justify-center items-center">
             圖表內容
           </div>
