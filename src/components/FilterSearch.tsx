@@ -6,35 +6,6 @@ interface DropdownProps {
   // 目前沒有傳遞任何 props，可以定義為空的接口
 }
 const FilterSearch: React.FC<DropdownProps> = () => {
-  // 時區的陣列格式
-  // const timeZones = [
-  //   { offset: "UTC-12:00", label: "台灣(GMT-12:00)" },
-  //   { offset: "UTC-11:00", label: "台灣(GMT-11:00)" },
-  //   { offset: "UTC-10:00", label: "台灣(GMT-10:00)" },
-  //   { offset: "UTC-09:00", label: "台灣(GMT-09:00)" },
-  //   { offset: "UTC-08:00", label: "台灣(GMT-08:00)" },
-  //   { offset: "UTC-07:00", label: "台灣(GMT-07:00)" },
-  //   { offset: "UTC-06:00", label: "台灣(GMT-06:00)" },
-  //   { offset: "UTC-05:00", label: "台灣(GMT-05:00)" },
-  //   { offset: "UTC-04:00", label: "台灣(GMT-04:00)" },
-  //   { offset: "UTC-03:00", label: "台灣(GMT-03:00)" },
-  //   { offset: "UTC-02:00", label: "台灣(GMT-02:00)" },
-  //   { offset: "UTC-01:00", label: "台灣(GMT-01:00)" },
-  //   { offset: "UTC+00:00", label: "台灣(GMT+00:00)" },
-  //   { offset: "UTC+01:00", label: "台灣(GMT+01:00)" },
-  //   { offset: "UTC+02:00", label: "台灣(GMT+02:00)" },
-  //   { offset: "UTC+03:00", label: "台灣(GMT+03:00)" },
-  //   { offset: "UTC+04:00", label: "台灣(GMT+04:00)" },
-  //   { offset: "UTC+05:00", label: "台灣(GMT+05:00)" },
-  //   { offset: "UTC+06:00", label: "台灣(GMT+06:00)" },
-  //   { offset: "UTC+07:00", label: "台灣(GMT+07:00)" },
-  //   { offset: "UTC+08:00", label: "台灣(GMT+08:00)" },
-  //   { offset: "UTC+09:00", label: "台灣(GMT+09:00)" },
-  //   { offset: "UTC+10:00", label: "台灣(GMT+10:00)" },
-  //   { offset: "UTC+11:00", label: "台灣(GMT+11:00)" },
-  //   { offset: "UTC+12:00", label: "台灣(GMT+12:00)" },
-  // ];
-
   return (
     <div className="flex w-full  gap-6">
       <div className="flex flex-col w-[20%] min-w-[100px]">

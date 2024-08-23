@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { DownloadSimple } from "phosphor-react";
+import * as XLSX from "xlsx";
+// import html2pdf from "../types/html2pdf";
+import html2pdf from "html2pdf.js";
 import {
   LineChart,
   Line,
@@ -13,38 +16,79 @@ import {
   Legend,
 } from "recharts";
 
-// type TableProps = {
-//   view: "table" | "chart";
-//   data: data[];
-// };
-
-// 定義組件的props類型
-// interface SimpleFormProps {
-//   data: string[];
-// }
-
 const Table: React.FC = () => {
   // 狀態用來控制當前顯示的是表格還是圖表，初始是table
   const [view, setView] = useState("table");
   const [downloadType, setDownloadType] = useState("excel");
 
   // 測試用假資料
-  const data = [
+  // const data = [
+  //   { name: "首頁", pv: 3, uv: 4, time: 20240801 },
+  //   { name: "會員資料頁", pv: 2, uv: 3, time: 20240801 },
+  //   { name: "任務頁", pv: 1, uv: 2, time: 20240801 },
+  //   { name: "第四頁", pv: 1, uv: 2, time: 20240801 },
+  //   { name: "第五頁", pv: 1, uv: 2, time: 20240801 },
+  // ];
+
+  const [data] = useState([
     { name: "首頁", pv: 3, uv: 4, time: 20240801 },
     { name: "會員資料頁", pv: 2, uv: 3, time: 20240801 },
     { name: "任務頁", pv: 1, uv: 2, time: 20240801 },
     { name: "第四頁", pv: 1, uv: 2, time: 20240801 },
     { name: "第五頁", pv: 1, uv: 2, time: 20240801 },
-  ];
+  ]);
 
-  // 定義假資料的類型
-  // type data = {
-  //   name: string;
-  //   pv: number;
-  //   uv: number;
-  //   time: number;
+  useEffect(() => {
+    if (chartRef.current) {
+      // 確保 DOM 元素已經渲染
+      console.log("chartRef.current:", chartRef.current);
+    }
+  }, []);
+  // 下載excel表單
+  const downloadExcel = () => {
+    // Create a new workbook and a worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(data);
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    // Generate a download link and trigger the download
+    XLSX.writeFile(wb, "表單下載.xlsx");
+  };
+  // ref為圖表容器建立一個：ref為元件中的圖表容器定義一個。
+  const chartRef = useRef<HTMLDivElement | null>(null);
+
+  // 下載pdf表單
+  const downloadPDF = () => {
+    if (chartRef.current) {
+      const element = chartRef.current;
+      const opt = {
+        margin: 1,
+        filename: "chart.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      };
+
+      html2pdf().from(element).set(opt).save("chart.pdf");
+    }
+  };
+  // const downloadPDF = () => {
+  //   if (chartRef.current) {
+  //     const element = chartRef.current;
+  //     console.log("Element to be converted to PDF:", element); // 確保這裡輸出了正確的 DOM 元素
+  //     const opt = {
+  //       margin: 1,
+  //       filename: "chart.pdf",
+  //       image: { type: "jpeg", quality: 0.98 },
+  //       html2canvas: { scale: 2 },
+  //       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+  //     };
+
+  //     html2pdf().from(element).set(opt).save("ascas");
+  //   } else {
+  //     console.error("chartRef.current is null");
+  //   }
   // };
-
   return (
     <div className="w-full  items-center flex flex-col mt-5">
       {/* 包住數值、下載按鈕 */}
@@ -75,7 +119,16 @@ const Table: React.FC = () => {
           </div>
         </div>
         {/* 下載按鈕 */}
-        <button className="px-4 py-2 border-[#948469] text-[#948469] border-2 flex rounded-lg hover:scale-105 transition-all duration-300">
+        <button
+          className="px-4 py-2 border-[#948469] text-[#948469] border-2 flex rounded-lg hover:scale-105 transition-all duration-300"
+          onClick={() => {
+            if (downloadType === "excel") {
+              downloadExcel();
+            } else if (downloadType === "pdf") {
+              downloadPDF();
+            }
+          }}
+        >
           <DownloadSimple size={24} />
           {downloadType === "excel" ? "下載Excel" : "下載PDF"}
         </button>
@@ -110,7 +163,10 @@ const Table: React.FC = () => {
           </tbody>
         </table>
       ) : (
-        <div className="chart-container m-10 w-full flex  gap-4 flex-col items-center">
+        <div
+          className="chart-container m-10 w-full flex  gap-4 flex-col items-center "
+          ref={chartRef}
+        >
           {/* 圖表中第一列 */}
           <div className="flex flex-row gap-10 w-full justify-between">
             <div className="chart p-12 border-2 ps-1 relative rounded-lg w-[50%] justify-center flex pt-16">
