@@ -2,10 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 // import { Table } from "phosphor-react";
 import Table from "../components/Table";
-import FilterSearch from "../components/FilterSearch";
+import FilterSearchEvent from "../components/FilterSearchEvent";
 import { Link } from "react-router-dom";
 
-const ProjectPage: React.FC = () => {
+const ProjectPage2: React.FC = () => {
   const { projectId } = useParams();
 
   return (
@@ -16,11 +16,11 @@ const ProjectPage: React.FC = () => {
         <Link to={`/${projectId}/View`}>查看專案</Link>
       </div> */}
       {/* 這邊是圖表的篩選、搜尋功能 */}
-      <FilterSearch />
+      <FilterSearchEvent />
       {/* 這邊是圖表 */}
       <Table />
     </div>
   );
 };
 
-export default ProjectPage;
+export default ProjectPage2;

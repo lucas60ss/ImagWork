@@ -18,8 +18,12 @@ const Breadcrumbs: React.FC = () => {
     <nav className="flex items-center space-x-2 text-sm">
       <Link to="/">選擇專案</Link>
       {pathnames.map((value, index) => {
+        // 處理動態路由，例如 :projectId
+        const isDynamic = !breadcrumbNameMap[value] && !isNaN(Number(value));
         const pathname = `/${pathnames.slice(0, index + 1).join("/")}`;
-        const breadcrumbLabel = breadcrumbNameMap[value] || value; // 使用映射，找不到則使用原值
+        const breadcrumbLabel = isDynamic
+          ? `專案 ID: ${value}`
+          : breadcrumbNameMap[value] || value;
 
         return (
           <React.Fragment key={pathname}>

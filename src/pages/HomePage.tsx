@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
     const selectedProject = e.target.value;
     setProjects(selectedProject);
     if (selectedProject && projectMappings[selectedProject]) {
-      navigate(`/projects/${projectMappings[selectedProject]}`);
+      navigate(`/${projectMappings[selectedProject]}`);
     }
   };
 
@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
       .filter((key) => key.toLowerCase().includes(searchTerm.toLowerCase()))
       .map((key) => ({
         name: key,
-        link: `/projects/${projectMappings[key]}`,
+        link: `/${projectMappings[key]}`,
       }));
     setSearchResults(results);
   };
@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="flex w-full overflow-hidden">
       <div className="w-full justify-start items-start flex flex-row mr-10">
-        <section className="allProject w-full flex items-center justify-center flex-col h-80">
+        <section className="allProject w-full flex items-center justify-center flex-col ">
           <select
             className="mt-5 w-80 px-4 py-2 rounded-lg border-2 border-gray-500 placeholder-gray-400 transition-transform transform hover:scale-105"
             value={Projects}
@@ -80,7 +80,7 @@ const HomePage: React.FC = () => {
             placeholder="請輸入搜尋詞"
           />
           <button
-            className="px-4 py-2 mt-5 rounded-lg bg-gray-400 hover:bg-gray-800 hover:text-gray-400 focus:outline-none custom-hover"
+            className="px-4 py-2 mt-5 rounded-lg bg-[#] hover:scale-105 transition-all duration-300 custom-button2"
             onClick={handleSearch}
           >
             搜尋

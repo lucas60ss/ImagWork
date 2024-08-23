@@ -33,7 +33,7 @@ const Sidebar: React.FC = () => {
           <li>
             <Link
               to="/"
-              className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300"
+              className="block px-8 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300"
             >
               首頁
             </Link>
@@ -41,7 +41,7 @@ const Sidebar: React.FC = () => {
           <li className="relative">
             <div
               onClick={toggleDropdown} // 點擊時觸發toggleDropdown方法
-              className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300 w-[225px] flex justify-between cursor-pointer"
+              className="block px-8 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300 w-[225px] flex justify-between cursor-pointer"
             >
               帳號權限管理
               <span className="ml-2 mt-1">
@@ -53,19 +53,19 @@ const Sidebar: React.FC = () => {
                 <div className="py-1">
                   <Link
                     to="/option1"
-                    className="block px-4 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
+                    className="block px-8 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
                   >
                     選項1
                   </Link>
                   <Link
                     to="/option2"
-                    className="block px-4 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
+                    className="block px-8 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
                   >
                     選項2
                   </Link>
                   <Link
                     to="/option3"
-                    className="block px-4 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
+                    className="block px-8 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
                   >
                     選項3
                   </Link>
@@ -76,7 +76,7 @@ const Sidebar: React.FC = () => {
           <li>
             <div
               onClick={toggleDropdown2}
-              className="block px-4 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300 
+              className="block px-8 py-2 hover:bg-gray-700 hover:scale-105 hover:text-slate-200 hover:rounded-lg transition-all duration-300 
               flex flex-row justify-between"
             >
               個人帳號管理
@@ -89,19 +89,19 @@ const Sidebar: React.FC = () => {
                 <div className="py-1">
                   <Link
                     to="/option1"
-                    className="block px-4 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
+                    className="block px-8 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
                   >
                     選項1
                   </Link>
                   <Link
                     to="/option2"
-                    className="block px-4 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
+                    className="block px-8 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
                   >
                     選項2
                   </Link>
                   <Link
                     to="/option3"
-                    className="block px-4 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
+                    className="block px-8 py-2 text-sm text-gray-100 hover:transition-all duration-300 hover:text-lg"
                   >
                     選項3
                   </Link>

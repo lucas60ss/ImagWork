@@ -5,7 +5,7 @@ import Table from "../components/Table";
 import FilterSearch from "../components/FilterSearch";
 import { Link } from "react-router-dom";
 
-const ProjectPage: React.FC = () => {
+const ProjectPage3: React.FC = () => {
   const { projectId } = useParams();
 
   return (
@@ -23,4 +23,4 @@ const ProjectPage: React.FC = () => {
   );
 };
 
-export default ProjectPage;
+export default ProjectPage3;
