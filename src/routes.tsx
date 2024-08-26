@@ -13,6 +13,8 @@ import ProjectPageEvent from "./pages/ProjectPageEvent";
 import ProjectPageUUID from "./pages/ProjectPageUUID";
 import ProjectPageManage from "./pages/ProjectPageManage";
 
+// 引入SelectedItemProvider
+import { SelectedItemProvider } from "./hooks/SelectedItemContext";
 const Layout: React.FC = () => {
   const location = useLocation();
   // const isBreadcrumbsVisible = location.pathname !== "/login";
@@ -51,47 +53,44 @@ const Layout2: React.FC = () => {
 
 const AppRoutes: React.FC = () => {
   return (
-    <Routes>
-      {/* 登入的Login，沒有sideBar */}
-      <Route path="/login" element={<LoginPage />} />
+    // 這邊是我的專案sideBar的全域鉤子
+    <SelectedItemProvider>
+      <Routes>
+        {/* 登入的Login，沒有sideBar */}
+        <Route path="/login" element={<LoginPage />} />
 
-      <Route element={<LoginGuard />}>
-        <Route element={<Layout />}>
-          {/* 所有路由套用sidebar */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" />
-          <Route path="/option1" />
-          <Route path="/option2" />
-          <Route path="/option3" />
-          {/* 添加 點進去各個專案 的動態路由 */}
-          {/* <Route path="/projects" element={<ProjectPage />}> */}
-          {/* 動態路由，顯示ProjectPage*/}
-          {/* <Route path="/:projectId" element={<ProjectPage />} /> */}
-          {/* </Route> */}
-        </Route>
+        <Route element={<LoginGuard />}>
+          <Route element={<Layout />}>
+            {/* 所有路由套用sidebar */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" />
+            <Route path="/option1" />
+            <Route path="/option2" />
+            <Route path="/option3" />
+            {/* 添加 點進去各個專案 的動態路由 */}
+            {/* <Route path="/projects" element={<ProjectPage />}> */}
+            {/* 動態路由，顯示ProjectPage*/}
+            {/* <Route path="/:projectId" element={<ProjectPage />} /> */}
+            {/* </Route> */}
+          </Route>
 
-        {/* 專案頁面的路由配置 */}
-        <Route element={<Layout2 />}>
-          {/* 動態路由，顯示ProjectPage*/}
-          <Route path="/:projectId" element={<ProjectPage />} />
-          <Route path="/:projectId/View" element={<ProjectPage />} />
-          <Route path="/:projectId/Event" element={<ProjectPageEvent />} />
-          <Route path="/:projectId/UID-List" element={<ProjectPageUUID />} />
-          <Route
-            path="/:projectId/Project-manage"
-            element={<ProjectPageManage />}
-          />
-          <Route />
+          {/* 專案頁面的路由配置 */}
+          <Route element={<Layout2 />}>
+            {/* 動態路由，顯示ProjectPage*/}
+            <Route path="/:projectId" element={<ProjectPage />} />
+            <Route path="/:projectId/View" element={<ProjectPage />} />
+            <Route path="/:projectId/Event" element={<ProjectPageEvent />} />
+            <Route path="/:projectId/UID-List" element={<ProjectPageUUID />} />
+            <Route
+              path="/:projectId/Project-manage"
+              element={<ProjectPageManage />}
+            />
+            <Route />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </SelectedItemProvider>
   );
 };
 
 export default AppRoutes;
-
-// <Routes>
-//   <Route path="/" element={<HomePage />} />
-//   <Route path="/login" element={<LoginPage />} />
-//   {/* <Route path="*" element={<NotFoundPage />} /> */}
-// </Routes>

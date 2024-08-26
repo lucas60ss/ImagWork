@@ -86,11 +86,11 @@ const HomePage: React.FC = () => {
             搜尋
           </button>
           <div className="mt-5">
-            <h2 className="text-lg font-bold">搜尋結果:</h2>
+            <h2 className="text-lg font-bold text-center">搜尋結果:</h2>
             <ul>
               {searchResults.length > 0 ? (
                 searchResults.map((result, index) => (
-                  <li key={index} className="border-b border-gray-300 py-2">
+                  <li key={index} className="border-b border-gray-300 py-2 ">
                     <a
                       href={result.link}
                       className="text-blue-500 hover:underline"

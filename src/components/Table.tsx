@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { DownloadSimple } from "phosphor-react";
+import { DownloadSimple, CaretLeft, CaretRight } from "phosphor-react";
 import * as XLSX from "xlsx";
 // import html2pdf from "../types/html2pdf";
 import html2pdf from "html2pdf.js";
@@ -16,7 +16,13 @@ import {
   Legend,
 } from "recharts";
 
+// 塞入全域鉤子
+import { useSelectedItem } from "../hooks/SelectedItemContext";
+
 const Table: React.FC = () => {
+  // 使用全域狀態
+  const { selectedItem } = useSelectedItem();
+
   // 狀態用來控制當前顯示的是表格還是圖表，初始是table
   const [view, setView] = useState("table");
   const [downloadType, setDownloadType] = useState("excel");
@@ -36,7 +42,26 @@ const Table: React.FC = () => {
     { name: "任務頁", pv: 1, uv: 2, time: 20240801 },
     { name: "第四頁", pv: 1, uv: 2, time: 20240801 },
     { name: "第五頁", pv: 1, uv: 2, time: 20240801 },
+    { name: "第六頁", pv: 2, uv: 3, time: 20240801 },
+    { name: "第七頁", pv: 2, uv: 3, time: 20240801 },
+    { name: "第八頁", pv: 1, uv: 2, time: 20240801 },
+    { name: "第九頁", pv: 3, uv: 4, time: 20240801 },
+    { name: "第十頁", pv: 4, uv: 5, time: 20240801 },
   ]);
+
+  // 當前頁面
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 製作每一頁面顯示的項目數量
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  // 計算當前頁面的數據
+  const currentData = data.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   useEffect(() => {
     if (chartRef.current) {
@@ -72,23 +97,9 @@ const Table: React.FC = () => {
       html2pdf().from(element).set(opt).save("chart.pdf");
     }
   };
-  // const downloadPDF = () => {
-  //   if (chartRef.current) {
-  //     const element = chartRef.current;
-  //     console.log("Element to be converted to PDF:", element); // 確保這裡輸出了正確的 DOM 元素
-  //     const opt = {
-  //       margin: 1,
-  //       filename: "chart.pdf",
-  //       image: { type: "jpeg", quality: 0.98 },
-  //       html2canvas: { scale: 2 },
-  //       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-  //     };
 
-  //     html2pdf().from(element).set(opt).save("ascas");
-  //   } else {
-  //     console.error("chartRef.current is null");
-  //   }
-  // };
+  //  計算要顯示的項目
+
   return (
     <div className="w-full  items-center flex flex-col mt-5">
       {/* 包住數值、下載按鈕 */}
@@ -115,7 +126,7 @@ const Table: React.FC = () => {
               setDownloadType("excel");
             }}
           >
-            表格
+            表單
           </div>
         </div>
         {/* 下載按鈕 */}
@@ -136,32 +147,81 @@ const Table: React.FC = () => {
 
       {/* 依狀態顯示不同內容 */}
       {view === "table" ? (
-        <table className="w-full border border-gray-200 rounded-xl mt-10">
-          <thead className="bg-gray-100 text-[#A3A3A3]">
-            <tr>
-              <th className="border border-gray-300 px-4 py-2">頁面</th>
-              <th className="border border-gray-300 px-4 py-2">PV</th>
-              <th className="border border-gray-300 px-4 py-2">UV</th>
-              <th className="border border-gray-300 px-4 py-2">時間</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((item, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 px-4 py-2">
-                  {item.name}
-                </td>
-                <td className="border border-gray-300 px-4 py-2">{item.pv}</td>
-                <td className="border border-gray-300 px-4 py-2">{item.uv}</td>
-                <td className="border border-gray-300 px-4 py-2">{`${item.time
-                  .toString()
-                  .slice(0, 4)}/${item.time.toString().slice(4, 6)}/${item.time
-                  .toString()
-                  .slice(6)}`}</td>
+        <div className="w-full flex flex-col">
+          <table className="w-full border border-gray-200 rounded-t-xl mt-10 border-collapse">
+            <thead className="bg-gray-100 text-[#A3A3A3]">
+              <tr>
+                <th className="border border-gray-300 px-4 py-2">頁面</th>
+                <th className="border border-gray-300 px-4 py-2">PV</th>
+                <th className="border border-gray-300 px-4 py-2">UV</th>
+                <th className="border border-gray-300 px-4 py-2">時間</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentData.map((item, index) => (
+                <tr key={index}>
+                  <td className="border border-gray-300 px-4 py-2 w-1/4">
+                    {item.name}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 w-1/4">
+                    {item.pv}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 w-1/4">
+                    {item.uv}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 w-1/4">{`${item.time
+                    .toString()
+                    .slice(0, 4)}/${item.time
+                    .toString()
+                    .slice(4, 6)}/${item.time.toString().slice(6)}`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {/* <div className="pageBottom"> */}
+          {/* 分頁按鈕 */}
+          <div className="flex justify-end py-2 pr-3 border-x-[1px] border-b-[1px] border-gray-300 rounded-b-lg">
+            <select
+              value={itemsPerPage}
+              onChange={(e) => {
+                setItemsPerPage(Number(e.target.value));
+                setCurrentPage(1); // 重置頁碼為1
+              }}
+              className="px-4 py-2 border rounded-lg"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+            </select>
+            <span className="px-4 py-2 mx-1">
+              {currentPage} - {totalPages} of {data.length}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className=""
+            >
+              <CaretLeft size={24} />
+            </button>
+
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+              className=""
+            >
+              <CaretRight size={24} />
+            </button>
+          </div>
+
+          {/* 每頁顯示的項目數量選擇器 */}
+          {/* <div className="flex justify-end mt-4">
+              <span className="mr-2">每頁顯示:</span>
+              
+            </div> */}
+          {/* </div> */}
+        </div>
       ) : (
         <div
           className="chart-container m-10 w-full flex  gap-4 flex-col items-center "
