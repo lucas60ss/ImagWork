@@ -1,6 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { DownloadSimple, CaretLeft, CaretRight } from "phosphor-react";
+import { useForm } from "react-hook-form";
+import {
+  DownloadSimple,
+  CaretLeft,
+  CaretRight,
+  CaretUp,
+  CaretDown,
+} from "phosphor-react";
 import * as XLSX from "xlsx";
 // import html2pdf from "../types/html2pdf";
 import html2pdf from "html2pdf.js";
@@ -28,27 +35,55 @@ const Table: React.FC = () => {
   const [downloadType, setDownloadType] = useState("excel");
 
   // 測試用假資料
-  // const data = [
-  //   { name: "首頁", pv: 3, uv: 4, time: 20240801 },
-  //   { name: "會員資料頁", pv: 2, uv: 3, time: 20240801 },
-  //   { name: "任務頁", pv: 1, uv: 2, time: 20240801 },
-  //   { name: "第四頁", pv: 1, uv: 2, time: 20240801 },
-  //   { name: "第五頁", pv: 1, uv: 2, time: 20240801 },
-  // ];
 
-  const [data] = useState([
+  const [data, setData] = useState([
     { name: "首頁", pv: 3, uv: 4, time: 20240801 },
-    { name: "會員資料頁", pv: 2, uv: 3, time: 20240801 },
-    { name: "任務頁", pv: 1, uv: 2, time: 20240801 },
-    { name: "第四頁", pv: 1, uv: 2, time: 20240801 },
-    { name: "第五頁", pv: 1, uv: 2, time: 20240801 },
-    { name: "第六頁", pv: 2, uv: 3, time: 20240801 },
-    { name: "第七頁", pv: 2, uv: 3, time: 20240801 },
-    { name: "第八頁", pv: 1, uv: 2, time: 20240801 },
-    { name: "第九頁", pv: 3, uv: 4, time: 20240801 },
-    { name: "第十頁", pv: 4, uv: 5, time: 20240801 },
+    { name: "會員資料頁", pv: 2, uv: 3, time: 20240802 },
+    { name: "任務頁", pv: 1, uv: 2, time: 20240803 },
+    { name: "第四頁", pv: 1, uv: 2, time: 20240804 },
+    { name: "第五頁", pv: 1, uv: 2, time: 20240805 },
+    { name: "第六頁", pv: 2, uv: 3, time: 20240806 },
+    { name: "第七頁", pv: 2, uv: 3, time: 20240807 },
+    { name: "第八頁", pv: 1, uv: 2, time: 20240808 },
+    { name: "第九頁", pv: 3, uv: 4, time: 20240809 },
+    { name: "第十頁", pv: 4, uv: 5, time: 20240810 },
   ]);
+  // 這邊製作圖表升幂、降冪配置
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: "ascending" | "descending";
+  } | null>(null);
 
+  // 排序的的資料
+  const sortData = (key: keyof (typeof data)[0]) => {
+    let direction: "ascending" | "descending" = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
+    }
+
+    const sortedData = [...data].sort((a, b) => {
+      const aValue = a[key] as string | number;
+      const bValue = b[key] as string | number;
+
+      if (aValue < bValue) {
+        return direction === "ascending" ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return direction === "ascending" ? 1 : -1;
+      }
+      return 0;
+    });
+
+    setSortConfig({ key, direction });
+    setData(sortedData);
+  };
+
+  // -----------------------------------
+  // 這邊是製作table表的分頁面資訊，
   // 當前頁面
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -98,8 +133,6 @@ const Table: React.FC = () => {
     }
   };
 
-  //  計算要顯示的項目
-
   return (
     <div className="w-full  items-center flex flex-col mt-5">
       {/* 包住數值、下載按鈕 */}
@@ -126,7 +159,7 @@ const Table: React.FC = () => {
               setDownloadType("excel");
             }}
           >
-            表單
+            表格
           </div>
         </div>
         {/* 下載按鈕 */}
@@ -151,10 +184,114 @@ const Table: React.FC = () => {
           <table className="w-full border border-gray-200 rounded-t-xl mt-10 border-collapse">
             <thead className="bg-gray-100 text-[#A3A3A3]">
               <tr>
-                <th className="border border-gray-300 px-4 py-2">頁面</th>
-                <th className="border border-gray-300 px-4 py-2">PV</th>
-                <th className="border border-gray-300 px-4 py-2">UV</th>
-                <th className="border border-gray-300 px-4 py-2">時間</th>
+                <th className="border border-gray-300 px-4 py-2 ">
+                  <div className="flex flex-row justify-between items-center">
+                    頁面
+                    <div>
+                      <CaretUp
+                        size={16}
+                        className={
+                          sortConfig?.key === "name" &&
+                          sortConfig.direction === "ascending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("name")}
+                      />
+                      <CaretDown
+                        size={16}
+                        className={
+                          sortConfig?.key === "name" &&
+                          sortConfig.direction === "descending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("name")}
+                      />
+                    </div>
+                  </div>
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  <div className="flex flex-row justify-between items-center">
+                    PV
+                    <div>
+                      <CaretUp
+                        size={16}
+                        className={
+                          sortConfig?.key === "pv" &&
+                          sortConfig.direction === "ascending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("pv")}
+                      />
+                      <CaretDown
+                        size={16}
+                        className={
+                          sortConfig?.key === "pv" &&
+                          sortConfig.direction === "descending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("pv")}
+                      />
+                    </div>
+                  </div>
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  <div className="flex flex-row justify-between items-center">
+                    UV
+                    <div>
+                      <CaretUp
+                        size={16}
+                        className={
+                          sortConfig?.key === "uv" &&
+                          sortConfig.direction === "ascending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("uv")}
+                      />
+                      <CaretDown
+                        size={16}
+                        className={
+                          sortConfig?.key === "uv" &&
+                          sortConfig.direction === "descending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("uv")}
+                      />
+                    </div>
+                  </div>
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  <div className="flex flex-row justify-between items-center">
+                    時間
+                    <div>
+                      <CaretUp
+                        size={16}
+                        className={
+                          sortConfig?.key === "time" &&
+                          sortConfig.direction === "ascending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("time")}
+                      />
+                      <CaretDown
+                        size={16}
+                        className={
+                          sortConfig?.key === "time" &&
+                          sortConfig.direction === "descending"
+                            ? "text-black"
+                            : ""
+                        }
+                        onClick={() => sortData("time")}
+                      />
+                    </div>
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -191,7 +328,8 @@ const Table: React.FC = () => {
             >
               <option value={5}>5</option>
               <option value={10}>10</option>
-              <option value={15}>15</option>
+              <option value={20}>20</option>
+              <option value={50}>50</option>
             </select>
             <span className="px-4 py-2 mx-1">
               {currentPage} - {totalPages} of {data.length}
@@ -290,9 +428,9 @@ const Table: React.FC = () => {
               </div>
               <BarChart width={500} height={300} data={data} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" /> {/* X轴表示数值 */}
+                <XAxis type="number" /> {/* X軸表示数值 */}
                 <YAxis type="category" dataKey="name" width={80} />{" "}
-                {/* Y轴表示类别 */}
+                {/* Y軸表示類別 */}
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="pv" fill="#1a73e8" />

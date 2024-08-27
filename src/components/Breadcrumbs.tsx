@@ -1,3 +1,4 @@
+// 最上方麵包屑
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -25,6 +26,7 @@ const Breadcrumbs: React.FC = () => {
           ? `專案 ID: ${value}`
           : breadcrumbNameMap[value] || value;
 
+        console.log(value);
         return (
           <React.Fragment key={pathname}>
             <span>&gt;</span>

@@ -1,7 +1,7 @@
 // src/pages/HomePage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { projectMappings } from "../components/projectMappings"; // 导入映射表
+import { projectMappings } from "../components/projectMappings"; // 導入映射表
 
 const HomePage: React.FC = () => {
   const allProject = Object.keys(projectMappings);

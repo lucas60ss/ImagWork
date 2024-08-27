@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useSelectedItem } from "../hooks/SelectedItemContext";
+import { useParams } from "react-router-dom";
 
+// interface SidebarProjectProps {
+//   projectId?: string; // 将 projectId 设为可选
+// }
 const SidebarProject: React.FC = () => {
   // 預設選取狀態，預設"View"被選取
   const { selectedItem, setSelectedItem } = useSelectedItem();
+  // const projectId = "Macallan";
+
+  // 使用useParams來獲取 URL的動態參數
+  const { projectId } = useParams<{ projectId: string }>();
 
   return (
     <div className="w-[225px] bg-gray-800 text-white min-h-screen flex flex-col items-center">
@@ -22,7 +30,7 @@ const SidebarProject: React.FC = () => {
         <ul>
           <li>
             <Link
-              to="/:projectId/View"
+              to={`/${projectId}/View`}
               onClick={() => setSelectedItem("View")}
               className={`block px-8 py-2 transition-all duration-300 ${
                 selectedItem === "View"
@@ -35,7 +43,7 @@ const SidebarProject: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/:projectId/Event"
+              to={`/${projectId}/Event`}
               onClick={() => setSelectedItem("Event")}
               className={`block px-8 py-2 w-[225px] flex justify-between cursor-pointer transition-all duration-300 ${
                 selectedItem === "Event"
@@ -48,7 +56,7 @@ const SidebarProject: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/:projectId/UID-List"
+              to={`/${projectId}/UID-List`}
               onClick={() => setSelectedItem("UID List")}
               className={`block px-8 py-2 w-[225px] flex justify-between cursor-pointer transition-all duration-300 ${
                 selectedItem === "UID List"
@@ -61,7 +69,7 @@ const SidebarProject: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/:projectId/Project-manage"
+              to={`/${projectId}/Project-manage`}
               onClick={() => setSelectedItem("Project Manage")}
               className={`block px-8 py-2 w-[225px] flex justify-between cursor-pointer transition-all duration-300 ${
                 selectedItem === "Project Manage"

@@ -76,16 +76,15 @@ const AppRoutes: React.FC = () => {
 
           {/* 專案頁面的路由配置 */}
           <Route element={<Layout2 />}>
-            {/* 動態路由，顯示ProjectPage*/}
+            {/* 最通用的路径最后放置 */}
             <Route path="/:projectId" element={<ProjectPage />} />
+            <Route path="/:projectId/UID-List" element={<ProjectPageUUID />} />
             <Route path="/:projectId/View" element={<ProjectPage />} />
             <Route path="/:projectId/Event" element={<ProjectPageEvent />} />
-            <Route path="/:projectId/UID-List" element={<ProjectPageUUID />} />
             <Route
               path="/:projectId/Project-manage"
               element={<ProjectPageManage />}
             />
-            <Route />
           </Route>
         </Route>
       </Routes>
